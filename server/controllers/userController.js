@@ -2,7 +2,8 @@ import { User } from "../models/userModel.js"
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-const register = async (req, res) => {
+// register
+export const register = async (req, res) => {
     try {
         const { fullName, username, password, confirmPassword, gender } = req.body;
         if (!fullName || !username || !password || !confirmPassword || !gender) {
@@ -31,14 +32,14 @@ const register = async (req, res) => {
             profilePhoto: gender === "male" ? maleProfilePhoto : femaleProfilePhoto, 
             gender 
         });
-        return res.status(201).json({message: "account created successfully", success: true})
+        return res.status(201).json({message: "Account Created Successfully!", success: true})
     } catch (error) {
         console.log(error);
     }
 };
 
 // login 
-const login = async (req, res) => {
+export const login = async (req, res) => {
     try {
         const { username, password } = req.body;
         if (!username || !password) {
@@ -54,9 +55,39 @@ const login = async (req, res) => {
         if(!isPasswordMatch){
             return res.status(400).json({message: "Incorrect Username or Password", success: false})
         }
+        // generate jwt token
+        const tokendata = {
+            userId: user._id
+        }
+        const token = await jwt.sign(tokendata, process.env.JWT_SECRET_KEY, {expiresIn: "2d"});
+        // send token to cookie
+        return res.status(200).cookie("token", token, {maxAge: 2*24*60*60*1000, httpOnly: true, sameSite: 'strict' }).json({
+            _id: user._id,
+            username: user.username,
+            fullName: user.fullName,
+            profilePhoto: user.profilePhoto
+        });
     } catch (error) {
         console.log(error);
     }
 }
 
-export default register;
+// logout
+export const logout = async (req, res) => {
+    try {
+        return res.status(200).cookie("token", "", {maxAge: 0}).json({message: "logged Out"})
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+// show other users
+export const getOtherUsers = async (req, res) => {
+    try {
+        const loggedInUserId = req.id;
+        const otherUsers = await User.find({_id: {$ne: loggedInUserId}}).select("-password");
+        return res.status(200).json(otherUsers);
+    } catch (error) {
+        console.log(error);
+    }
+}
