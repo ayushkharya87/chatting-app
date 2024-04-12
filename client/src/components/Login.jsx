@@ -3,40 +3,43 @@ import { Link, useNavigate } from 'react-router-dom'
 import toast from "react-hot-toast"
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setAuthUser } from '../redux/userSlice.js';
+import { setAuthUser } from '../redux/userSlice';
+import { BASE_URL } from '..';
 
 const Login = () => {
+
   const [user, setUser] = useState({
     username: "",
     password: "",
   });
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const dispatch = useDispatch()
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    // post api
     try {
-      const res = await axios.post(`http://localhost:5000/api/v1/user/login`, user, {
+       // post api
+      const res = await axios.post(`${BASE_URL}/api/v1/user/login`, user, {
         headers: {
           'Content-Type': 'application/json'
         },
         withCredentials: true
       });
       navigate("/");
-      // console.log(res);
+      console.log(res);
       dispatch(setAuthUser(res.data));
     } catch (error) {
       toast.error(error.response.data.message);
       console.log(error);
-    };
+    }
     // set empty after submit
     setUser({
       username: "",
       password: ""
     })
-  }
+  };
+
   return (
     <div className="min-w-96 mx-auto">
       <div className='w-full p-6 rounded-lg shadow-md bg-gray-400 bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-10 border border-gray-100'>
@@ -77,4 +80,4 @@ const Login = () => {
   )
 }
 
-export default Login;
+export default Login
