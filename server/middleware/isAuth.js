@@ -21,3 +21,8 @@ const isAuth = async (req, res, next) => {
 };
 
 export default isAuth;
+
+const req = {
+    id:"",
+}
+req.id = "ayush"

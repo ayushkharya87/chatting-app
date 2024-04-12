@@ -5,7 +5,8 @@ import axios from "axios"
 import toast from "react-hot-toast"
 import {useNavigate} from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setAllUsers, setAuthUser } from '../redux/userSlice';
+import { setAllUsers, setAuthUser, setSelectedUser } from '../redux/userSlice';
+import { setMessages } from '../redux/messageSlice';
 
 const Sidebar = () => {
 
@@ -19,7 +20,10 @@ const Sidebar = () => {
       const res = await axios.get(`http://localhost:5000/api/v1/user/logout`);
       navigate("/login");
       toast.success(res.data.message);
-      dispatch(setAuthUser(null))
+      dispatch(setAuthUser(null));
+      dispatch(setMessages(null));
+      dispatch(setAllUsers(null));
+      dispatch(setSelectedUser(null));
     } catch (error) {
       console.log(error);
     }
@@ -27,7 +31,7 @@ const Sidebar = () => {
 
   const searchHandler = (e) => {
     e.preventDefault();
-    const searchUser = allUsers?.find(((user) => user.fullName.toLowerCase().includes(search.toLowerCase())));
+    const searchUser = allUsers?.find((user)=> user.fullName.toLowerCase().includes(search.toLowerCase()));
     if(searchUser) {
       dispatch(setAllUsers([searchUser]));
     } else {

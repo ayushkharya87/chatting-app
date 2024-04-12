@@ -31,18 +31,18 @@ const App = () => {
 
   useEffect(() => {
     if(authUser) {
-      const socket = io("http://localhost:5000", {
+      const socketio = io("http://localhost:5000", {
         query: {
           userId: authUser._id     // get the socket.io user id
         }  
       });
-      dispatch(setSocket(socket));
+      dispatch(setSocket(socketio));
       // receive online user from backend
-      socket.on("getOnlineUsers", (onlineUsers) => {
+      socketio?.on("getOnlineUsers", (onlineUsers) => {
         dispatch(setOnlineUsers(onlineUsers))
       });
       // disconnect
-      return () => socket.close();
+      return () => socketio.close();
     } else {
       if(socket) {
         socket.close()

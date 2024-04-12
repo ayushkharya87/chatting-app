@@ -13,7 +13,7 @@ const SignUp = () => {
     gender: ""
   });
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   // checkbox
   const handleCheckbox =(gender) => {
     setUser({...user, gender})
@@ -61,7 +61,7 @@ const SignUp = () => {
             <span className='text-base label-text'>Full Name</span>
             </label>
             <input type="text" value={user.fullName} 
-            onChange={(e) => setUser({...user, fullName:e.target.value})} className='w-full input input-bordered h-8' placeholder='Enter Your Full name'/>
+            onChange={(e) => setUser({...user, fullName: e.target.value})} className='w-full input input-bordered h-8' placeholder='Enter Your Full name'/>
           </div>
           {/* username */}
           <div>
