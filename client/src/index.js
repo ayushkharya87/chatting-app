@@ -12,7 +12,7 @@ import { persistStore } from 'redux-persist';
 let persistor = persistStore(store);
 
 // export const BASE_URL="http://localhost:8080"
-export const BASE_URL="https://chatting-app-ruddy.vercel.app/"
+export const BASE_URL="https://chatting-app-lake.vercel.app"
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
