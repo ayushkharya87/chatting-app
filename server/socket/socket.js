@@ -7,7 +7,10 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
     cors:{
-        origin:['http://localhost:3000'],
+        origin:[`https://chatting-app-neon.vercel.app`, `https://chatting-app-git-master-ayush-kharyas-projects.vercel.app`,
+    `https://chatting-gabqbi4er-ayush-kharyas-projects.vercel.app`,
+    `https://chatting-app-ayush-kharyas-projects.vercel.app`
+],
         methods:['GET', 'POST'],
     },
 });
