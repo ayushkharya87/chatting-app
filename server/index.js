@@ -16,7 +16,10 @@ app.use(express.json());
 app.use(cookieParser());
 const corsOption={
     // origin:'http://localhost:3000',
-    origin:'*',
+    origin:[`https://chatting-app-neon.vercel.app`, `https://chatting-app-git-master-ayush-kharyas-projects.vercel.app`,
+    `https://chatting-gabqbi4er-ayush-kharyas-projects.vercel.app`,
+    `https://chatting-app-ayush-kharyas-projects.vercel.app`
+],
     credentials:true
 };
 app.use(cors(corsOption)); 
